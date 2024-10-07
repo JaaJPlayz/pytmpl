@@ -1,4 +1,6 @@
 from rich_menu import Menu
+import os
+
 
 def menu():
     menu = Menu(
@@ -9,10 +11,11 @@ def menu():
     )
     match menu.ask():
         case "Option 1":
-            print("first option selected")
+            print(os.getcwd())
         case "Option 2":
             print("second option selected")
         case "Option 3":
             print("third option selected")
         case "Exit":
-            exit()
+            print("Bye!")
+            quit()
