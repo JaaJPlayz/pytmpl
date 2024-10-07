@@ -1,5 +1,15 @@
+altgraph==0.17.4
+click==8.1.7
+coverage==7.6.1
+iniconfig==2.0.0
 markdown-it-py==3.0.0
 mdurl==0.1.2
+packaging==24.1
+pluggy==1.5.0
 pretty==0.1
 Pygments==2.18.0
+pyinstaller-hooks-contrib==2024.8
+pytest==8.3.3
+pytest-cov==5.0.0
 rich==13.9.2
+rich-menu==0.2.0
