@@ -1,0 +1,1 @@
+EXPRESS_BASE_APP = "import express from 'express';\nconst app = express();\napp.get('/', (req, res) => res.json({'message': 'Hello World!'}));\nexport default app;"

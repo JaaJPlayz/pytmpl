@@ -2,8 +2,10 @@ import os
 import subprocess
 
 from utils.response_checker import response_checker
+from utils.venv_creator import venv_creator
 
-from tmpl.flask_base import FLASK_BASE_APP
+from tmpl import flask_base as FLASK_BASE_APP
+from tmpl import express_base as EXPRESS_BASE_APP
 
 
 class Creator:
@@ -39,12 +41,11 @@ class Creator:
 
     # Back-end Section
     def create_django_app(self):
-        venv_prompt = response_checker("Do you have a venv? (y/n): ")
-        if not venv_prompt:
-            os.system("python -m venv .venv")
-
-        os.system("source .venv/bin/activate")
         current_dir = os.getcwd()
+        venv_prompt = response_checker("Do you want to create a venv? (y/n): ")
+        if venv_prompt:
+            venv_creator(current_dir, ["django"])
+
         project_name = input("Enter project name: ")
         subprocess.run(
             f"django-admin startproject {project_name}",
@@ -57,13 +58,11 @@ class Creator:
             os.system("python manage.py runserver")
 
     def create_flask_app(self):
-        venv_prompt = response_checker("Do you have a venv? (y/n): ")
-        if not venv_prompt:
-            os.system("python -m venv .venv")
-
-        os.system("source .venv/bin/activate")
-        os.system("pip install flask")
         current_dir = os.getcwd()
+        venv_prompt = response_checker("Do you want to create a venv? (y/n): ")
+        if venv_prompt:
+            venv_creator(current_dir, ["flask", "uvicorn"])
+
         project_name = input("Enter project name: ")
         subprocess.run(
             f"mkdir {project_name} && cd {project_name} && echo '{FLASK_BASE_APP}' > app.py",
@@ -75,10 +74,49 @@ class Creator:
             os.system("python app.py")
 
     def create_fastapi_app(self):
-        pass
+        current_dir = os.getcwd()
+        venv_prompt = response_checker("Do you want to create a venv? (y/n): ")
+        if venv_prompt:
+            venv_creator(current_dir, ["fastapi", "uvicorn"])
+
+        project_name = input("Enter project name: ")
+        subprocess.run(
+            f"mkdir {project_name} && cd {project_name} && echo '{FLASK_BASE_APP}' > app.py",
+            shell=True,
+            cwd=current_dir
+        )
+        run_app = response_checker("Do you want to run the app? (y/n): ")
+        if run_app:
+            os.system("uvicorn app:app")
 
     def create_express_app(self):
-        pass
+        current_dir = os.getcwd()
+        project_folder_name = input("Enter project name: ")
+        final_path = f"{current_dir}/{project_folder_name}"
+        os.system(f"mkdir {final_path} && cd {final_path}")
+        os.system("npm init -y")
+
+        typescript_support_prompt = response_checker("Do you want to use typescript? (y/n): ")
+        if typescript_support_prompt:
+            os.system("tsc --init")
+            os.system("npm install express")
+            os.system("npm install typescript --save-dev")
+            os.system("npm install @types/express --save-dev")
+            os.system("npm install @types/node --save-dev")
+            os.system("npm install ts-node-dev --save-dev")
+            os.system("npm install ts-node --save-dev")
+            os.system("npm install nodemon --save-dev")
+        
+        else:
+            os.system("npm install express")
+            os.system("npm install nodemon --save-dev")
+
+        os.system(f"touch {final_path}/app.js")
+        os.system(f"echo '{EXPRESS_BASE_APP}' > {final_path}/app.js")
+
+        run_app = response_checker("Do you want to run the app? (y/n): ")
+        if run_app:
+            os.system("nodemon app.js")
 
     def create_fullstack_app(self, tech_frontend: str, tech_backend: str):
         pass
