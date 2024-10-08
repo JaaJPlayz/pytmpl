@@ -1,0 +1,1 @@
+FLASK_BASE_APP = "from flask import Flask\n app = Flask(__name__)\n @app.route('/')\n def hello_world():\n    return 'Hello, World!'\nif __name__ == '__main__':\n    app.run(debug=True)"
