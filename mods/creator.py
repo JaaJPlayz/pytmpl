@@ -119,4 +119,17 @@ class Creator:
             os.system("nodemon app.js")
 
     def create_fullstack_app(self, tech_frontend: str, tech_backend: str):
-        pass
+        if tech_frontend == "Vite":
+            self.create_frontend_vite()
+        elif tech_frontend == "Next":
+            self.create_next_app()
+        if tech_backend == "Django":
+            self.create_django_app()
+        elif tech_backend == "Flask":
+            self.create_flask_app()
+        elif tech_backend == "FastAPI":
+            self.create_fastapi_app()
+        elif tech_backend == "Express":
+            self.create_express_app()
+        else:
+            print("Invalid backend technology")
